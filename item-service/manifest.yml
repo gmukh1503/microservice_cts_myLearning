@@ -1,0 +1,13 @@
+applications:
+- name: item-service
+  disk_quota: 700M
+  instances: 1
+  memory: 700M
+  services:
+  - customer-item-sales-order-service-registry
+  - rabbitmq
+  - mysql-db-service
+  stack: cflinuxfs3
+  path: target/item-service.jar
+  buildpacks: 
+  - https://github.com/cloudfoundry/java-buildpack.git
