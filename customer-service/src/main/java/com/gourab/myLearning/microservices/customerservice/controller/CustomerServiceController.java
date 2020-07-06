@@ -5,6 +5,7 @@ package com.gourab.myLearning.microservices.customerservice.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,7 @@ import com.gourab.myLearning.microservices.customerservice.service.CustomerServi
 @EnableCircuitBreaker
 public class CustomerServiceController {
 	
+	
 	@Autowired
 	private CustomerService customerService;
 	
@@ -35,6 +37,15 @@ public class CustomerServiceController {
 	
 	@PostMapping("/customer")
 	public ResponseEntity<Customer> createACustomer(@RequestBody Customer customerReq){
-		return customerService.createACustomer(customerReq);
+		ResponseEntity<Customer> respEntity = null;
+		Customer customerResp = customerService.createACustomer(customerReq);
+		if(null!=customerResp && null!=customerResp.getCustomerId()) {
+			respEntity = new ResponseEntity<Customer> (customerResp,HttpStatus.CREATED);
+			customerService.publishEvent(customerResp);
+		}
+		else {
+			respEntity = new ResponseEntity<Customer> (customerResp,HttpStatus.BAD_REQUEST);
+		}
+		return respEntity;
 	}
 }

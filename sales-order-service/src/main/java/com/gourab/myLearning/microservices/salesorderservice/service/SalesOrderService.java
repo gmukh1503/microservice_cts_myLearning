@@ -10,6 +10,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -31,6 +33,7 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
  *
  */
 @Service
+@RefreshScope
 public class SalesOrderService {
 
 	public static final String  ITEM_SERVICE_URL = "http://item-service/service2/items/{itemName}";
@@ -46,6 +49,9 @@ public class SalesOrderService {
 	
 	@Autowired
 	private ItemServiceProxy itemServiceProxy;
+	
+	@Value("${app.autoRefreshVal}")
+	private String autoRefreshVal;
 
 	private List<String> portList;
 
@@ -111,6 +117,7 @@ public class SalesOrderService {
 			orderResp = new OrderResponse();
 			orderResp.setOrderId(orderId);
 			orderResp.setMessage("Order Placed Successfully.");
+			orderResp.setAutoRefreshVal(autoRefreshVal);
 		}else {
 			throw new RuntimeException();
 		}
@@ -155,6 +162,7 @@ public class SalesOrderService {
 	public ResponseEntity<OrderResponse> createAnOrderFallback(OrderRequest orderReq){
 		OrderResponse orderResp = new OrderResponse();
 		orderResp.setMessage("Order could not be placed");
+		orderResp.setAutoRefreshVal(autoRefreshVal);
 		if(portList.size()>0) {
 			orderResp.setItemServicePort(portList.get(0));
 		}

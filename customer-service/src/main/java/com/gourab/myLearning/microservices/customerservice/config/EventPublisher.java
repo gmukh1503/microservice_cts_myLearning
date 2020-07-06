@@ -3,6 +3,7 @@
  */
 package com.gourab.myLearning.microservices.customerservice.config;
 
+import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,6 +29,10 @@ public class EventPublisher {
 	
 	//@Scheduled(fixedDelay = 2000, initialDelay = 1000)
 	public void sendMessage(Customer customer) {
+		try {
 		rabbitTemplate.convertAndSend(exchangeName, routingKey, customer);
+		}catch(AmqpException ae) {
+			System.out.println("-----SENDING -> QUEUE ERROR :--"+ae.getMessage());
+		}
 	}
 }

@@ -1,0 +1,9 @@
+applications:
+- name: spring-cloud-config-server
+  disk_quota: 700M
+  instances: 1
+  memory: 700M
+  stack: cflinuxfs3
+  path: target/spring-cloud-config-server.jar
+  buildpacks: 
+  - https://github.com/cloudfoundry/java-buildpack.git

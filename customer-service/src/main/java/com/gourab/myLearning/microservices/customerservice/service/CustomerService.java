@@ -50,28 +50,36 @@ public class CustomerService {
 	 * @return
 	 */
 	@HystrixCommand(fallbackMethod = "createACustomerFallback")
-	public ResponseEntity<Customer> createACustomer(Customer customerReq) {
-		ResponseEntity<Customer> respEntity = null;
+	public Customer createACustomer(Customer customerReq) {
+		Customer custResp = null;
 		if (null != customerReq 
 				&& null != customerReq.getFirstName() && !customerReq.getFirstName().isEmpty()
 				&& null != customerReq.getLastName() && !customerReq.getLastName().isEmpty()
 				&& null != customerReq.getEmail() && !customerReq.getEmail().isEmpty()) {
-			Customer custResp = customerRepo.saveAndFlush(customerReq);
-			eventPublisher.sendMessage(custResp);
-			respEntity = new ResponseEntity<>(custResp,HttpStatus.CREATED);
+			custResp = customerRepo.saveAndFlush(customerReq);
 
 		} else {
 			throw new InvalidCustomerException("Please provide valid Customer Information.");
 		}
-		return respEntity;
+		return custResp;
 	}
 
 	/**
 	 * @param customerReq
 	 * @return
 	 */
-	public ResponseEntity<Customer> createACustomerFallback(Customer customerReq){
+	public Customer createACustomerFallback(Customer customerReq){
 		Customer customerResp = new Customer();
-		return new ResponseEntity<>(customerResp,HttpStatus.BAD_REQUEST);
+		customerResp.setFirstName(customerReq.getFirstName());
+		customerResp.setLastName(customerReq.getLastName());
+		customerResp.setEmail(customerReq.getEmail());
+		return customerResp;
+	}
+
+	/**
+	 * @param customerResp
+	 */
+	public void publishEvent(Customer customerResp) {
+		eventPublisher.sendMessage(customerResp);
 	}
 }

@@ -20,5 +20,6 @@ public class OrderResponse implements Serializable{
 	private Integer orderId;
 	private String message;
 	private String itemServicePort;
+	private String autoRefreshVal;
 
 }

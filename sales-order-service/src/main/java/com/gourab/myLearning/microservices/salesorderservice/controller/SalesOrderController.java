@@ -26,7 +26,7 @@ public class SalesOrderController {
 	private SalesOrderService salesOrderService;
 	
 		@PostMapping("/orders")
-		public ResponseEntity<OrderResponse> createOrder(@RequestBody OrderRequest order){
+		public ResponseEntity<OrderResponse> createOrder( @RequestBody OrderRequest order){
 			return salesOrderService.createAnOrder(order);
 		}
 		

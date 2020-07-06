@@ -68,7 +68,8 @@ public class ItemService {
 	 * @param itemName
 	 * @return
 	 */
-	public Item getItemDetailFallback(String itemName) {
+	public Item getItemDetailFallback(String itemName, Throwable e) {
+		System.out.println("--- Item-Service Fallback---->>>>:"+e.getMessage());
 		Item item = new Item();
 		item.setPort(port);
 		return item;
