@@ -1,13 +1,13 @@
 applications:
 - name: customer-service
-  disk_quota: 700M
+  disk_quota: 1G
   instances: 1
   memory: 1G
   services:
-  - customer-item-sales-order-service-registry
+  - config-server
+  - eureka-registry-server
   - rabbitmq
   - mysql-db-service
-  - microservice-cts-cloud-config-server
   routes:
   - route: customer-service-thankful-wolverine-ok.cfapps.io
   stack: cflinuxfs3

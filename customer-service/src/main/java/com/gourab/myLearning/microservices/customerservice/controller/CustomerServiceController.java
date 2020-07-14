@@ -4,6 +4,7 @@
 package com.gourab.myLearning.microservices.customerservice.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,9 +27,16 @@ import com.gourab.myLearning.microservices.customerservice.service.CustomerServi
 @EnableCircuitBreaker
 public class CustomerServiceController {
 	
+	@Value("${test.message:not found}")
+	private String message;
 	
 	@Autowired
 	private CustomerService customerService;
+	
+	@GetMapping("/hello")
+	public String getHelloMessage(){
+		return message;
+	}
 	
 	@GetMapping("/customers")
 	public ResponseEntity<Customers> fetchAllCustomers(){
