@@ -6,6 +6,7 @@ package com.gourab.myLearning.microservices.customerservice.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +26,7 @@ import com.gourab.myLearning.microservices.customerservice.service.CustomerServi
 @RestController
 @RequestMapping("/service1")
 @EnableCircuitBreaker
+@RefreshScope
 public class CustomerServiceController {
 	
 	@Value("${test.message:not found}")

@@ -28,7 +28,7 @@ public class OrderLineItem implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE)
 	private Integer id;
 	
 	@Column(name="item_name")

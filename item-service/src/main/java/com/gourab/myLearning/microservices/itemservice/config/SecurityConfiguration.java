@@ -1,56 +1,29 @@
 package com.gourab.myLearning.microservices.itemservice.config;
-/*
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-	
-	@Value("${spring.security.user.name}")
-	private String userName;
-	
-	@Value("${spring.security.user.password}")
-	private String password;
-	
-	@Value("${spring.security.user.roles}")
-	private String roles;
-
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication()
-				.withUser(userName)
-				.password(password)
-				.roles(roles);
-				
-	}
 	
 	/*
 	 * Note:-Define in the order of Highest authorization level to Lowest. 
 	 * If we declare the lowest authorization earlier then it will 
 	 * never check the highest authorization. So order is very important.
 	 */
-/*	@Override   
+	@Override   
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable();
-		http.authorizeRequests()
-			//.antMatchers("/admin").hasRole("ADMIN")
-			//.antMatchers("/user").hasAnyRole("ADMIN","USER")
-			.antMatchers("/").permitAll()
-			.and()
-			.formLogin();
+		http.authorizeRequests().anyRequest().permitAll();
 	}
 	
 	@Bean
 	public PasswordEncoder getNoOpPasswordEncoder() {
 		return NoOpPasswordEncoder.getInstance();
 	}
-}*/
+}

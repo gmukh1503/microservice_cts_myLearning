@@ -14,24 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
-	@Value("${spring.security.user.name}")
-	private String userName;
-	
-	@Value("${spring.security.user.password}")
-	private String password;
-	
-	@Value("${spring.security.user.roles}")
-	private String roles;
-
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication()
-				.withUser(userName)
-				.password(password)
-				.roles(roles);
-				
-	}
-	
 	/*
 	 * Note:-Define in the order of Highest authorization level to Lowest. 
 	 * If we declare the lowest authorization earlier then it will 
@@ -40,12 +22,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override   
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable();
-		http.authorizeRequests()
-			//.antMatchers("/admin").hasRole("ADMIN")
-			//.antMatchers("/user").hasAnyRole("ADMIN","USER")
-			.antMatchers("/").permitAll()
-			.and()
-			.formLogin();
+		http.authorizeRequests().anyRequest().permitAll();
 	}
 	
 	@Bean
